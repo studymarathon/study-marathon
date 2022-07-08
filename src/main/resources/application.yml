@@ -16,3 +16,37 @@ spring:
 
   jpa:
     open-in-view: false
+
+
+
+  spring:
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true
+      show-sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          web: TRACE
+    com:
+      github:
+        studym:
+          studymarathon: debug
+
+
+  spring:
+    security:
+      oauth2:
+        client:
+          registration:
+            google:
+              lient-id: 127921108602-i8hep7gvpmeip8cuv46v0tcfep6f392d.apps.googleusercontent.com
+              client-secret: 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
+              scope: email
+
