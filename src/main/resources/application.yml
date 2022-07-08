@@ -14,19 +14,14 @@ spring:
     password: studym
     url: jdbc:mysql://localhost:5000/study_marathon
 
+
   jpa:
     open-in-view: false
-
-
-
-  spring:
-    jpa:
-      hibernate:
-        ddl-auto: update
-      properties:
-        hibernate:
-          format_sql: true
-      show-sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
 
 logging:
   level:

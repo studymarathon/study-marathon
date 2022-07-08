@@ -3,10 +3,7 @@ package com.github.studym.studymarathon.entity;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,9 +13,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member extends Serializers.Base {
+public class User extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String email;
 
     private String password;
@@ -29,10 +29,10 @@ public class Member extends Serializers.Base {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
-    private Set<MemberRole> roleSet = new HashSet<>();
+    private Set<UserRole> roleSet = new HashSet<>();
 
-    public void addMemberRole(MemberRole memberRole){
-        roleSet.add(memberRole);
+    public void addMemberRole(UserRole userRole){
+        roleSet.add(userRole);
     }
 
 }

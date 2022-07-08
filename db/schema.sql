@@ -1,6 +1,6 @@
 use study_marathon;
 
-create table user
+create table member
 (
     id          bigint auto_increment
         primary key,
