@@ -1,6 +1,6 @@
 package com.github.studym.studymarathon.entity;
 
-public enum UserRole {
+public enum MemberRole {
 
     USER , ADMIN
 }

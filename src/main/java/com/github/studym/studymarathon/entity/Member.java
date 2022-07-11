@@ -1,6 +1,5 @@
 package com.github.studym.studymarathon.entity;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,8 +11,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
-public class User extends BaseEntity {
+@ToString
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +28,10 @@ public class User extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
-    private Set<UserRole> roleSet = new HashSet<>();
+    private Set<MemberRole> roleSet = new HashSet<>();
 
-    public void addMemberRole(UserRole userRole){
-        roleSet.add(userRole);
+    public void addMemberRole(MemberRole memberRole){
+        roleSet.add(memberRole);
     }
 
 }
