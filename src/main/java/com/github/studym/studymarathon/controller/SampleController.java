@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Log4j2
-@RequestMapping("/api")
+@RequestMapping("/sample")
 public class SampleController {
 
 

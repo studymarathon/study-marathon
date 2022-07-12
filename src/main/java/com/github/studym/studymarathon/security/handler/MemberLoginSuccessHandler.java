@@ -1,4 +1,4 @@
-package com.github.studym.studymarathon.config.handler;
+package com.github.studym.studymarathon.security.handler;
 
 import com.github.studym.studymarathon.security.dto.AuthMemberDTO;
 import lombok.extern.log4j.Log4j2;

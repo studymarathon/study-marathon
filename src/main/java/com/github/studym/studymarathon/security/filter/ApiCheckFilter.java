@@ -43,6 +43,7 @@ public class ApiCheckFilter extends OncePerRequestFilter {
             } else {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 //json  리턴
+                response.setContentType("application/json;charset=utf-8");
                 JSONObject json = new JSONObject();
                 String message = "FAIL CHECK API TOKEN";
                 json.put("code", "403");
@@ -67,7 +68,7 @@ public class ApiCheckFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(authHeader)) {
             log.info("Authorization exist: " + authHeader);
-            if (authHeader.equals("123456")) {
+            if (authHeader.equals("123")) {
                 checkResult = true;
             }
         }
