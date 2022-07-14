@@ -1,8 +1,7 @@
 package com.github.studym.studymarathon.security.util;
 
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.nimbusds.jose.mint.DefaultJWSMinter;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,11 @@ public class JWTUtil {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    // private  String secretKey = "studymarathon";
+    // private  String secretKey = "studymarathon"; @Deprecated 되서 String형이 필요없음
 
     // specified key byte array is 256 bits 이상으로 지정해야함
     private Key key = Keys.hmacShaKeyFor("studymarathon12345678studymarathon12345678".getBytes(StandardCharsets.UTF_8));
-    /*Key secretKey = new SecretKeySpec(secretBytes, SignatureAlgorithm.HS256.getJcaName());*/
+
     //유효기간
     private long expire = 60 * 10;
 
@@ -37,7 +36,7 @@ public class JWTUtil {
                 .setIssuedAt(now)
                 .setExpiration(expiresIn)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
-                .compact();*/
+                .compact();*/// 위 방식이 @Deprecated되서 아래의 방식으로 사용해야함
 
         return Jwts.builder()
                 .setIssuedAt(new Date())
@@ -47,17 +46,31 @@ public class JWTUtil {
                 .compact();
     }
 
-    public boolean validateAndExtract(String tokenStr) {
+    public String validateAndExtract(String tokenStr) {
         String contentValue = null;
 
         try{
 
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(tokenStr);
-            return true;
-        } catch (JwtException e) {
-            e.printStackTrace();
+            Jws jws = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(tokenStr);
+            log.info("--------------------------------");
 
-            throw new JwtException("Error on Token");
+            log.info(jws);
+            log.info(jws.getBody().getClass());
+
+            Claims claims = (Claims) jws.getBody();
+
+            log.info("--------------------------------");
+
+            contentValue = claims.getSubject();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            contentValue = null;
+
+
         }
+        return contentValue;
     }
 }
