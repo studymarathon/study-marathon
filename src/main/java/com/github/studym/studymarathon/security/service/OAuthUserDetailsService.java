@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -57,7 +56,7 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
                 member.getPassword(),
                 true, //fromsocial
                 member.getRoleSet().stream().map(
-                        role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                                role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                         .collect(Collectors.toList()),
                 oAuth2User.getAttributes()
         );
@@ -67,26 +66,24 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
         return dto;
     }
 
-    private Member saveSocialMember(String email){
-
+    private Member saveSocialMember(String email) {
         // 기존에 동일한 이메일로 가입한 회원은 그대로 조회만
-        Optional<Member> result = repository.findByEmail(email,true);
+        return repository.findByEmail(email, true)
+                .orElseGet(() -> getNewMember(email));
+    }
 
-        if(result.isPresent()){
-            return result.get();
-        }
-
+    private Member getNewMember(String email) {
         // 없다면 회원 추가 일단 임시로 패스워드는 1111 이메일은 연동한 이메일
-        Member member = Member.builder()
+        Member newMember = Member.builder()
                 .email(email)
                 .nickname(email)
                 .password(passwordEncoder.encode("1111"))
                 .fromSocial(true)
                 .build();
 
-        member.addMemberRole(MemberRole.USER);
-        repository.save(member);
+        newMember.addMemberRole(MemberRole.USER);
+        repository.save(newMember);
 
-        return member;
+        return newMember;
     }
 }
