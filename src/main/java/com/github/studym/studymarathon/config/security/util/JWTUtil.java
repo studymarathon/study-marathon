@@ -24,12 +24,8 @@ public class JWTUtil {
 //  specified key byte array is 256 bits 이상으로 지정해야함
 //
     RandomGenerator gen = RandomGenerator.of("L128X256MixRandom");
-    Random r = new Random();
 
     byte[] b = new byte[256];
-
-
-    int s = 333;
 
 
     // private  String secretKey = "studymarathon"; @Deprecated 되서 String형이 필요없음
@@ -37,6 +33,7 @@ public class JWTUtil {
     private UserDetailsService userDetailsService;
     private Key rkey = Keys.hmacShaKeyFor(nextBytes(b));
     private Key key = Keys.hmacShaKeyFor("aaaabbbbaaaabbbbaaaabbbbaaaabbbb".getBytes(StandardCharsets.UTF_8));
+
     //유효기간
     private long expire = 60 * 10;
 
