@@ -1,10 +1,11 @@
 package com.github.studym.studymarathon.config;
 
-import com.github.studym.studymarathon.security.filter.ApiCheckFilter;
-import com.github.studym.studymarathon.security.filter.ApiLoginFilter;
-import com.github.studym.studymarathon.security.handler.ApiLoginFailHandler;
-import com.github.studym.studymarathon.security.handler.MemberLoginSuccessHandler;
-import com.github.studym.studymarathon.security.service.AuthUserDetailsService;
+import com.github.studym.studymarathon.config.security.filter.ApiCheckFilter;
+import com.github.studym.studymarathon.config.security.filter.ApiLoginFilter;
+import com.github.studym.studymarathon.config.security.handler.ApiLoginFailHandler;
+import com.github.studym.studymarathon.config.security.handler.MemberLoginSuccessHandler;
+import com.github.studym.studymarathon.config.security.service.AuthUserDetailsService;
+import com.github.studym.studymarathon.config.security.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -80,12 +80,17 @@ public class SecurityConfig {
     @Bean
     public ApiLoginFilter apiLoginFilter(AuthenticationManager authenticationManager) throws Exception {
 
-        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/api/login");
+        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/api/login", jwtUtil());
         apiLoginFilter.setAuthenticationManager(authenticationManager);
 
         apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
 
         return apiLoginFilter;
+    }
+
+    @Bean
+    public JWTUtil jwtUtil() {
+        return new JWTUtil();
     }
 
     @Bean
@@ -97,7 +102,7 @@ public class SecurityConfig {
 
     @Bean
     public ApiCheckFilter apiCheckFilter() {
-        return new ApiCheckFilter("/sample/**/*");
+        return new ApiCheckFilter("/member/**/*", jwtUtil());
     }
 
 

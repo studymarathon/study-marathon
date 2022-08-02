@@ -1,8 +1,8 @@
 package com.github.studym.studymarathon.Security;
 
-import com.github.studym.studymarathon.entity.Member;
-import com.github.studym.studymarathon.entity.MemberRole;
-import com.github.studym.studymarathon.repository.MemberRepository;
+import com.github.studym.studymarathon.domain.member.entity.Member;
+import com.github.studym.studymarathon.domain.member.entity.MemberRole;
+import com.github.studym.studymarathon.domain.member.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

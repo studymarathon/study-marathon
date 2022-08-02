@@ -1,4 +1,4 @@
-package com.github.studym.studymarathon.security.handler;
+package com.github.studym.studymarathon.config.security.handler;
 
 import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;

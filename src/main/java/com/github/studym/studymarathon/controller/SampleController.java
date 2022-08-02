@@ -26,6 +26,7 @@ public class SampleController {
         return "로그인이 필요한 메인페이지임";
     }
 
+
     @GetMapping("/title")
     public String title() {
         log.info("안녕하세용");

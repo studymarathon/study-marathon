@@ -1,9 +1,9 @@
-package com.github.studym.studymarathon.security.service;
+package com.github.studym.studymarathon.config.security.service;
 
-import com.github.studym.studymarathon.entity.Member;
-import com.github.studym.studymarathon.entity.MemberRole;
-import com.github.studym.studymarathon.repository.MemberRepository;
-import com.github.studym.studymarathon.security.dto.AuthMemberDTO;
+import com.github.studym.studymarathon.domain.member.entity.Member;
+import com.github.studym.studymarathon.domain.member.entity.MemberRole;
+import com.github.studym.studymarathon.domain.member.repository.MemberRepository;
+import com.github.studym.studymarathon.config.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,9 +37,7 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         log.info("=====================================");
-        oAuth2User.getAttributes().forEach((k, v) -> {
-            log.info(k + ":" + v);
-        });
+        oAuth2User.getAttributes().forEach((k, v) -> log.info(k + ":" + v));
 
         String email = null;
 
@@ -54,7 +52,7 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
         AuthMemberDTO dto = new AuthMemberDTO(
                 member.getEmail(),
                 member.getPassword(),
-                true, //fromsocial
+                true, //fromSocial
                 member.getRoleSet().stream().map(
                                 role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                         .collect(Collectors.toList()),

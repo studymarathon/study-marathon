@@ -1,6 +1,6 @@
-package com.github.studym.studymarathon.repository;
+package com.github.studym.studymarathon.domain.member.repository;
 
-import com.github.studym.studymarathon.entity.Member;
+import com.github.studym.studymarathon.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

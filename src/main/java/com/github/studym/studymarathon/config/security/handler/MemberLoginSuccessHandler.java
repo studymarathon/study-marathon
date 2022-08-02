@@ -1,6 +1,6 @@
-package com.github.studym.studymarathon.security.handler;
+package com.github.studym.studymarathon.config.security.handler;
 
-import com.github.studym.studymarathon.security.dto.AuthMemberDTO;
+import com.github.studym.studymarathon.config.security.dto.AuthMemberDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;

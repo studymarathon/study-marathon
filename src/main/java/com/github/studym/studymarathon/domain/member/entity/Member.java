@@ -1,4 +1,4 @@
-package com.github.studym.studymarathon.entity;
+package com.github.studym.studymarathon.domain.member.entity;
 
 import lombok.*;
 

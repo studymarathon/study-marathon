@@ -1,5 +1,6 @@
-package com.github.studym.studymarathon.security.filter;
+package com.github.studym.studymarathon.config.security.filter;
 
+import com.github.studym.studymarathon.config.security.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
 import org.springframework.util.AntPathMatcher;
@@ -17,10 +18,12 @@ import java.io.PrintWriter;
 public class ApiCheckFilter extends OncePerRequestFilter {
     private AntPathMatcher antPathMatcher;
     private String pattern;
+    private JWTUtil jwtUtil;
 
-    public ApiCheckFilter(String pattern) {
+    public ApiCheckFilter(String pattern, JWTUtil jwtUtil) {
         this.antPathMatcher = new AntPathMatcher();
         this.pattern = pattern;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -66,10 +69,15 @@ public class ApiCheckFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        if (StringUtils.hasText(authHeader)) {
+        if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer")) {
             log.info("Authorization exist: " + authHeader);
-            if (authHeader.equals("123")) {
-                checkResult = true;
+
+            try {
+                String email = jwtUtil.validateAndExtract(authHeader.substring(7));
+                log.info("validate result: " + email);
+                checkResult = email.length() > 0;
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
 

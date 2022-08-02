@@ -1,8 +1,6 @@
-package com.github.studym.studymarathon.security.dto;
+package com.github.studym.studymarathon.config.security.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

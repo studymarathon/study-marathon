@@ -1,8 +1,8 @@
-package com.github.studym.studymarathon.security.service;
+package com.github.studym.studymarathon.config.security.service;
 
-import com.github.studym.studymarathon.entity.Member;
-import com.github.studym.studymarathon.repository.MemberRepository;
-import com.github.studym.studymarathon.security.dto.AuthMemberDTO;
+import com.github.studym.studymarathon.domain.member.entity.Member;
+import com.github.studym.studymarathon.domain.member.repository.MemberRepository;
+import com.github.studym.studymarathon.config.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
