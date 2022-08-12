@@ -11,9 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.security.SecureRandom;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.Random;
 import java.util.random.RandomGenerator;
 
 
@@ -23,7 +23,9 @@ public class JWTUtil {
     // TODO: 2022-08-02 key 생성시  SecureRandom 사용해 항상 랜덤한 키 배정후 토큰 발급
 //  specified key byte array is 256 bits 이상으로 지정해야함
 //
-    RandomGenerator gen = RandomGenerator.of("L128X256MixRandom");
+    RandomGenerator gen = RandomGenerator.of("SecureRandom");
+    SecureRandom secureRandom = new SecureRandom(SecureRandom.getSeed(20));
+
 
     byte[] b = new byte[256];
 
@@ -31,7 +33,9 @@ public class JWTUtil {
     // private  String secretKey = "studymarathon"; @Deprecated 되서 String형이 필요없음
     @Autowired
     private UserDetailsService userDetailsService;
-    private Key rkey = Keys.hmacShaKeyFor(nextBytes(b));
+    private Key RandomKey = Keys.hmacShaKeyFor(nextBytes(b));
+
+    private Key rkey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private Key key = Keys.hmacShaKeyFor("aaaabbbbaaaabbbbaaaabbbbaaaabbbb".getBytes(StandardCharsets.UTF_8));
 
     //유효기간
@@ -46,14 +50,15 @@ public class JWTUtil {
         return bytes;
     }
 
-    public String generateToken(String authentication) throws Exception {
+    public String generateToken(String content) throws Exception {
 
 
-        System.out.println("6오^");
-        System.out.println(nextBytes(b));
+
         System.out.println("---------------------------------------------");
         System.out.println(rkey.getEncoded());
         System.out.println(rkey.getFormat());
+        System.out.println(rkey.getAlgorithm());
+        System.out.println(rkey.getClass());
 
         /*        return Jwts.builder()
                 .setClaims(claims)
@@ -65,7 +70,7 @@ public class JWTUtil {
         return Jwts.builder()
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expire).toInstant()))
-                .setSubject(authentication)
+                .claim("sub",content)
                 .signWith(rkey, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -93,8 +98,6 @@ public class JWTUtil {
             e.printStackTrace();
             log.error(e.getMessage());
             contentValue = null;
-
-
         }
         return contentValue;
     }

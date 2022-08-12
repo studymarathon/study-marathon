@@ -1,6 +1,7 @@
 package com.github.studym.studymarathon.controller;
 
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ public class SampleController {
         log.info("MIME TYPE: " + MediaType.TEXT_PLAIN_VALUE);
         return "Testing hello XD";
     }
+
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("main")

@@ -40,21 +40,6 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
         return getAuthenticationManager().authenticate(authToken);
     }
 
-/*    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        log.info("-----------------ApiLoginFilter---------------------");
-        log.info("attemptAuthentication");
-
-        String email = request.getParameter("email");
-        String pw = request.getParameter("pw");
-
-        if (email == null) {
-            throw new BadCredentialsException("email cannot be null");
-        }
-
-        return null;
-
-    }*/
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
@@ -78,9 +63,5 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }

@@ -64,6 +64,7 @@ public class SecurityConfig {
 
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
+
         http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(apiLoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
 
