@@ -1,5 +1,6 @@
 package com.github.studym.studymarathon.domain.member.entity;
 
+import com.github.studym.studymarathon.domain.Util.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;

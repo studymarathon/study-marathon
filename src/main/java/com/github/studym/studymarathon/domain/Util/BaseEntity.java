@@ -1,4 +1,4 @@
-package com.github.studym.studymarathon.domain.board.entity;
+package com.github.studym.studymarathon.domain.Util;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(value = {AuditingEntityListener.class})
 @Getter
-abstract class BaseEntity {
+public abstract class BaseEntity {
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime created_at;

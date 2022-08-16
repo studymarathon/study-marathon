@@ -6,81 +6,36 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.security.SecureRandom;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.random.RandomGenerator;
 
 
 @Log4j2
 public class JWTUtil {
 
-    // TODO: 2022-08-02 key 생성시  SecureRandom 사용해 항상 랜덤한 키 배정후 토큰 발급
-//  specified key byte array is 256 bits 이상으로 지정해야함
-//
-    RandomGenerator gen = RandomGenerator.of("SecureRandom");
-    SecureRandom secureRandom = new SecureRandom(SecureRandom.getSeed(20));
+    private Key randomKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
+    public String generateToken(String content) {
 
-    byte[] b = new byte[256];
-
-
-    // private  String secretKey = "studymarathon"; @Deprecated 되서 String형이 필요없음
-    @Autowired
-    private UserDetailsService userDetailsService;
-    private Key RandomKey = Keys.hmacShaKeyFor(nextBytes(b));
-
-    private Key rkey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private Key key = Keys.hmacShaKeyFor("aaaabbbbaaaabbbbaaaabbbbaaaabbbb".getBytes(StandardCharsets.UTF_8));
-
-    //유효기간
-    private long expire = 60 * 10;
-
-    public byte[] nextBytes(byte[] bytes) {
-        for (int i = 0; i < bytes.length; )
-            for (int rnd = gen.nextInt(), n = Math.min(bytes.length - i, 4);
-                 n-- > 0; rnd >>= 8)
-                bytes[i++] = (byte) rnd;
-
-        return bytes;
-    }
-
-    public String generateToken(String content) throws Exception {
-
-
-
-        System.out.println("---------------------------------------------");
-        System.out.println(rkey.getEncoded());
-        System.out.println(rkey.getFormat());
-        System.out.println(rkey.getAlgorithm());
-        System.out.println(rkey.getClass());
-
-        /*        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(expiresIn)
-                .signWith(secretKey, SignatureAlgorithm.HS256)
-                .compact();*/// 위 방식이 @Deprecated되서 아래의 방식으로 사용해야함 */
+        //유효기간
+        long expire = 60 * 10;
 
         return Jwts.builder()
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expire).toInstant()))
-                .claim("sub",content)
-                .signWith(rkey, SignatureAlgorithm.HS256)
+                .claim("sub", content)
+                .signWith(randomKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public String validateAndExtract(String tokenStr) {
-        String contentValue = null;
+        String contentValue;
 
         try {
 
-            Jws jws = Jwts.parserBuilder().setSigningKey(rkey).build().parseClaimsJws(tokenStr);
+            Jws jws = Jwts.parserBuilder().setSigningKey(randomKey).build().parseClaimsJws(tokenStr);
             log.info("--------------------------------");
 
             log.info(jws);

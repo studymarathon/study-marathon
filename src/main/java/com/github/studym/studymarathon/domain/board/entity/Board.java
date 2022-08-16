@@ -1,5 +1,6 @@
 package com.github.studym.studymarathon.domain.board.entity;
 
+import com.github.studym.studymarathon.domain.Util.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board extends BaseEntity{
+public class Board extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +26,13 @@ public class Board extends BaseEntity{
     @Column(length = 5000, nullable = false)
     private String content;
 
-    public void changeTitle(String title){
+    public void updateTitle(String title) {
         this.title = title;
     }
 
-    public void changeContent(String content){
+    public void updateContent(String content) {
         this.content = content;
     }
+
 
 }

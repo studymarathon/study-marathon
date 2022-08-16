@@ -25,9 +25,9 @@ public class CORSFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept," +
                 " Key, Authorization");
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())){
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
-        }else {
+        } else {
             filterChain.doFilter(request, response);
         }
     }
