@@ -7,12 +7,10 @@ import com.github.studym.studymarathon.domain.board.entity.Board;
 import com.github.studym.studymarathon.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -31,7 +29,12 @@ public class BoardController {
 
         return service.getList(pageRequestDTO);
 
+    }
 
+    @PostMapping("/register")
+    public String register(BoardDTO dto){
+
+        return "";
     }
 
 }
