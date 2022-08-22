@@ -6,6 +6,7 @@ import com.github.studym.studymarathon.domain.board.dto.PageResultDTO;
 import com.github.studym.studymarathon.domain.board.entity.Board;
 
 public interface BoardService {
+
     Long register(BoardDTO dto);
 
     PageResultDTO<BoardDTO, Board> getList(PageRequestDTO requestDTO);
