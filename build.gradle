@@ -42,6 +42,10 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
 
+    // https://mvnrepository.com/artifact/net.coobird/thumbnailator
+    implementation 'net.coobird:thumbnailator:0.4.17'
+
+
     //Jwt 오류(io.jsonwebtoken.lang.UnknownClassException 해결을 위해 추가한 의존성
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-gson
     implementation group: 'io.jsonwebtoken', name: 'jjwt-gson', version: '0.11.2'

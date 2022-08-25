@@ -2,13 +2,18 @@ spring:
   profiles:
     active: local
 
+  servlet:
+    multipart:
+      enabled: true
+      location: c:\\upload
+      max-request-size: 300MB
+      max-file-size: 50MB
 
 
   datasource:
-    username: studym
-    password: studym
+    username: ${MYSQL_USER_ID}
+    password: ${MYSQL_USER_PW}
     url: jdbc:mysql://localhost:5000/study_marathon
-
 
   jpa:
     open-in-view: false
@@ -47,5 +52,8 @@ spring:
 
 
 
-
-
+com:
+  github:
+    studym:
+      studymarathon:
+        path: C:\\upload
