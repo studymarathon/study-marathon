@@ -42,8 +42,8 @@ public class BoardController {
 
     }
 
-    @PostMapping(value = "/register", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void register(BoardDTO dto, @RequestPart(required = false) MultipartFileDTO fileDTO) {
+    @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void register(BoardDTO dto, MultipartFileDTO fileDTO) {
         service.register(dto);
 
         log.info("/BoardController/register");

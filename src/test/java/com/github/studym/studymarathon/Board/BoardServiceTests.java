@@ -18,7 +18,7 @@ public class BoardServiceTests {
     public void testRegister(String title, String content, String Author) {
         BoardDTO boardDTO = BoardDTO.builder().title(title).content(content).author(Author).build();
 
-        System.out.println(service.register(boardDTO));
+        /*System.out.println(service.register(boardDTO));*/
     }
 
     @Test
