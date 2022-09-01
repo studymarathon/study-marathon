@@ -50,6 +50,40 @@ spring:
               - profile
               - email
 
+          naver:
+            clientId: ${NAVER_CLIENT_ID}
+            clientSecret: ${NAVER_CLIENT_SECRET}
+            authorizationGrantType: authorization_code
+            redirect_uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            scope:
+              - nickname
+              - email
+
+          kakao:
+            client-name: kakao
+            clientId: d4693ed962de7eeb8625824cdb466495
+            authorizationGrantType: authorization_code
+            redirect_uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            client-secret: aKZUv3UnxwYOodeLwETQbtYZMbCmbmUe
+            client-authentication-method: POST
+            scope:
+              - profile_nickname
+              - account_email
+
+
+        # Provider 설정
+        provider:
+          naver:
+            authorizationUri: https://nid.naver.com/oauth2.0/authorize
+            tokenUri: https://nid.naver.com/oauth2.0/token
+            userInfoUri: https://openapi.naver.com/v1/nid/me
+            userNameAttribute: response
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v2/user/me
+            userNameAttribute: id
+
 
 
 com:

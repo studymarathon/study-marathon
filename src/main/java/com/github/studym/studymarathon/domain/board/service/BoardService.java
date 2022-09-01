@@ -12,6 +12,7 @@ public interface BoardService {
 
     PageResultDTO<BoardDTO, Board> getList(PageRequestDTO requestDTO);
 
+    String gom();
 
     default Board dtoToEntity(BoardDTO dto) {
         Board entity = Board.builder()
@@ -36,4 +37,6 @@ public interface BoardService {
 
         return dto;
     }
+
+
 }

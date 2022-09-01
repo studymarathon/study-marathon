@@ -48,5 +48,11 @@ public class BoardServiceImpl implements BoardService {
         return new PageResultDTO<>(result, fn);
     }
 
+    /** 2022-08-31 곰 메서드 구현 상세 어떤 파라미터 어떤 형으로 리턴 받을지 이런식으로 */
+    @Override
+    public String gom() {
+        return null;
+    }
+
 
 }

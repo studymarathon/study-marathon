@@ -26,9 +26,6 @@ public class Board extends BaseEntity {
     @Column(length = 5000, nullable = false)
     private String content;
 
-    public void updateTitle(String title) {
-        this.title = title;
-    }
 
     public void updateContent(String content) {
         this.content = content;

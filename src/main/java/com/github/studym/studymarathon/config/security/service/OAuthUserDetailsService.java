@@ -41,7 +41,7 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
 
         String email = null;
 
-        if (clientName.equals("Google")) {
+        if (clientName.equals("Google") || clientName.equals("naver") ) {
             email = oAuth2User.getAttribute("email");
         }
 

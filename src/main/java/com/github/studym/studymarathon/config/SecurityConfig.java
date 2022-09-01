@@ -36,19 +36,6 @@ public class SecurityConfig {
     }
 
 
-
-
-
-
-/*    @Bean // 내부적으로 테스트용으로 만든 계정 비밀번호는 1234 DB를 설계한후 Test코드로 더미 유저를 넣으면 사용하지 않음
-    public InMemoryUserDetailsManager user() {
-        UserDetails Test = User.withUsername("test")
-                .password("$2a$10$2rtpooUPPWxaYN0k/JFkyOAx6iraltYJikdwZT303g2SLvHTgSqKO")
-                .roles("USER").build();
-
-        return new InMemoryUserDetailsManager(Test);
-    }*/
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 /*        http.authorizeRequests().antMatchers("/api/title").permitAll();
@@ -63,6 +50,7 @@ public class SecurityConfig {
         http.rememberMe().tokenValiditySeconds(60 * 10).userDetailsService(userDetailsService);//10분짜리 로그인 유지 토큰
 
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+
 
 
         http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);

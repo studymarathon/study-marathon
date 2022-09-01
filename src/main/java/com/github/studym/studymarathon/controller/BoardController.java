@@ -57,7 +57,6 @@ public class BoardController {
                 String uuid = UUID.randomUUID().toString();
                 Path savePath = Paths.get(uploadPath, uuid + "_" + originalFilename);
 
-
                 try {
                     multipartFile.transferTo(savePath);
 
@@ -71,6 +70,10 @@ public class BoardController {
                 }
             });
         }
+    }
+
+    public void update(){
+
     }
 
 }
