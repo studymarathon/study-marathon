@@ -61,10 +61,10 @@ spring:
 
           kakao:
             client-name: kakao
-            clientId: d4693ed962de7eeb8625824cdb466495
+            clientId: ${KAKAO_CLIENT_ID}
             authorizationGrantType: authorization_code
             redirect_uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
-            client-secret: aKZUv3UnxwYOodeLwETQbtYZMbCmbmUe
+            client-secret: ${KAKAO_CLIENT_SECRET}
             client-authentication-method: POST
             scope:
               - profile_nickname
