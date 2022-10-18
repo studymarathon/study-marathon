@@ -1,9 +1,9 @@
 package com.github.studym.studymarathon.config.security.service;
 
+import com.github.studym.studymarathon.config.security.dto.AuthMemberDTO;
 import com.github.studym.studymarathon.domain.member.entity.Member;
 import com.github.studym.studymarathon.domain.member.entity.MemberRole;
 import com.github.studym.studymarathon.domain.member.repository.MemberRepository;
-import com.github.studym.studymarathon.config.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,11 +39,8 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
         log.info("=====================================");
         oAuth2User.getAttributes().forEach((k, v) -> log.info(k + ":" + v));
 
-        String email = null;
+        String email = oAuth2User.getAttribute("email");
 
-        if (clientName.equals("Google") || clientName.equals("naver") ) {
-            email = oAuth2User.getAttribute("email");
-        }
 
         log.info("EMAIL: " + email);
 
@@ -60,7 +57,7 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
         );
 
         dto.setName(member.getEmail());
-
+        dto.setName(oAuth2User.getAttribute("name"));
         return dto;
     }
 
@@ -71,7 +68,7 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
     }
 
     private Member getNewMember(String email) {
-        // 없다면 회원 추가 일단 임시로 패스워드는 1111 이메일은 연동한 이메일
+        // 없다면 회원 추가 소셜 아이디라서 패스워드를 사용할일이 없음 그러니 임의로 1111지정 이메일은 연동한 이메일
         Member newMember = Member.builder()
                 .email(email)
                 .nickname(email)

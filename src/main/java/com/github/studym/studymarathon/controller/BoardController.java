@@ -11,7 +11,10 @@ import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +40,7 @@ public class BoardController {
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
         log.info("list.........." + pageRequestDTO);
-
+        log.info("안녕안녕");
         return service.getList(pageRequestDTO);
 
     }

@@ -56,7 +56,7 @@ spring:
             authorizationGrantType: authorization_code
             redirect_uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             scope:
-              - nickname
+              - name
               - email
 
           kakao:
