@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -26,28 +25,31 @@ public class AuthUserDetailsService implements UserDetailsService {
         log.info("----------------------------");
         log.info("AuthUserDetailsService loadUserByUsername" + username);
 
-        Optional<Member> result = repository.findByEmail(username, false);
-
-        if (result.isEmpty()) {
-            throw new UsernameNotFoundException("이메일이나 소셜 로그인을 여부를 다시 확인해주세요.");
-        }
-
-        Member member = result.get();
+        Member member = checkMember(username);
         log.info("------------------------------------------");
         log.info(member);
+        log.info("냥냥펀치확인");
 
         AuthMemberDTO dto = new AuthMemberDTO(
                 member.getEmail(),
                 member.getPassword(),
-                member.isFromSocial(),
+                member.getNickname(),
+                false,
                 member.getRoleSet().stream()
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toList())
         );
 
-        dto.setEmail(member.getEmail());
-        dto.setFromSocial(member.isFromSocial());
+        log.info("AuthMemberDTO");
+        log.info(dto);
 
         return dto;
     }
+
+    private Member checkMember(String username) {
+
+        return repository.getWithRoles(username).orElseThrow(() -> new UsernameNotFoundException("아이디가 없습니다."));
+    }
+
+
 }

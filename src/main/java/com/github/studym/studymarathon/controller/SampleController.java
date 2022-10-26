@@ -1,7 +1,6 @@
 package com.github.studym.studymarathon.controller;
 
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,7 @@ public class SampleController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("main")
-    public String mainpage() {
+    public String mainPage() {
         return "로그인이 필요한 메인페이지임";
     }
 

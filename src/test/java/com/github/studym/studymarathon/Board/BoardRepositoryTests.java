@@ -24,9 +24,9 @@ public class BoardRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1, 200).forEach(i -> {
+        IntStream.rangeClosed(1, 20).forEach(i -> {
             Board board = Board.builder()
-                    .title("제목" + i)
+                    .title("냥냥펀치" + i)
                     .content("내용애용내용" + i)
                     .author("작성자" + i)
                     .build();

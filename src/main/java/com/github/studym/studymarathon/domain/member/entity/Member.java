@@ -35,4 +35,17 @@ public class Member extends BaseEntity {
         roleSet.add(memberRole);
     }
 
+    public void clearRoles() {
+        this.roleSet.clear();
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    public void changeSocial(boolean fromSocial) {
+        this.fromSocial = fromSocial;
+    }
+
+
 }

@@ -46,18 +46,17 @@ public class OAuthUserDetailsService extends DefaultOAuth2UserService {
 
         Member member = saveSocialMember(email);
 
-        AuthMemberDTO dto = new AuthMemberDTO(
-                member.getEmail(),
-                member.getPassword(),
-                true, //fromSocial
-                member.getRoleSet().stream().map(
-                                role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
-                        .collect(Collectors.toList()),
-                oAuth2User.getAttributes()
+        AuthMemberDTO dto =
+                new AuthMemberDTO(
+                        member.getEmail(),
+                        member.getPassword(),
+                        member.getNickname(),
+                        member.isFromSocial(),
+                        member.getRoleSet()
+                                .stream().map(memberRole -> new SimpleGrantedAuthority("ROLE_"+memberRole.name()))
+                                .collect(Collectors.toList())
         );
 
-        dto.setName(member.getEmail());
-        dto.setName(oAuth2User.getAttribute("name"));
         return dto;
     }
 

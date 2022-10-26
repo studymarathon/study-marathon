@@ -3,11 +3,13 @@ package com.github.studym.studymarathon.config;
 import com.github.studym.studymarathon.config.security.filter.ApiCheckFilter;
 import com.github.studym.studymarathon.config.security.filter.ApiLoginFilter;
 import com.github.studym.studymarathon.config.security.handler.ApiLoginFailHandler;
+import com.github.studym.studymarathon.config.security.handler.Custom403Handler;
 import com.github.studym.studymarathon.config.security.handler.MemberLoginSuccessHandler;
 import com.github.studym.studymarathon.config.security.service.AuthUserDetailsService;
 import com.github.studym.studymarathon.config.security.util.JWTUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,20 +17,27 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-@Configuration
+import javax.sql.DataSource;
+
 @Log4j2
+@Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
 
+    private final DataSource dataSource;
+    private final AuthUserDetailsService userDetailsService;
 
-    @Autowired
-    private AuthUserDetailsService userDetailsService;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -38,7 +47,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-/*        http.authorizeRequests().antMatchers("/api/title").permitAll();
+/*      
+        Controller 단에서 롤 걸어줌
+        http.authorizeRequests().antMatchers("/api/title").permitAll();
         http.authorizeRequests().antMatchers("/api/main").hasRole("USER");
         http.authorizeRequests().antMatchers("api/admin").hasRole("ADMIN");*/
 
@@ -47,7 +58,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.logout();
         http.oauth2Login().successHandler(successHandler());
-        http.rememberMe().tokenValiditySeconds(60 * 10).userDetailsService(userDetailsService);//10분짜리 로그인 유지 토큰
+        http.rememberMe().key("12345678").tokenRepository(persistentTokenRepository()).tokenValiditySeconds(60 * 10).userDetailsService(userDetailsService);//10분짜리 로그인 유지 토큰
 
         AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
@@ -55,16 +66,21 @@ public class SecurityConfig {
 
         http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(apiLoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class);
-
+        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
 
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+
+        return (web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
     }
 
     @Bean
     public MemberLoginSuccessHandler successHandler() {
         return new MemberLoginSuccessHandler(passwordEncoder());
     }
-
 
     @Bean
     public ApiLoginFilter apiLoginFilter(AuthenticationManager authenticationManager) throws Exception {
@@ -75,6 +91,14 @@ public class SecurityConfig {
         apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
 
         return apiLoginFilter;
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+        repo.setDataSource(dataSource);
+
+        return repo;
     }
 
     @Bean
@@ -94,7 +118,10 @@ public class SecurityConfig {
         return new ApiCheckFilter("/member/**/*", jwtUtil());
     }
 
-
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new Custom403Handler();
+    }
 }
 
 
