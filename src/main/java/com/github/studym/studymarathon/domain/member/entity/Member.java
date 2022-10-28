@@ -4,6 +4,7 @@ import com.github.studym.studymarathon.domain.Util.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,10 @@ public class Member extends BaseEntity {
     private String nickname;
 
     private boolean fromSocial;
+
+    private boolean del;
+
+    private LocalDateTime delDate;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default

@@ -21,5 +21,8 @@ public class BoardDTO {
 
     private String content;
 
-    private LocalDateTime regDate, modDate;
+    private LocalDateTime regDate;
+
+    private LocalDateTime modDate;
+
 }

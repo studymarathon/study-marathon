@@ -1,7 +1,6 @@
 package com.github.studym.studymarathon.domain.board.service;
 
 import com.github.studym.studymarathon.domain.board.dto.BoardDTO;
-import com.github.studym.studymarathon.domain.board.dto.MultipartFileDTO;
 import com.github.studym.studymarathon.domain.board.dto.PageRequestDTO;
 import com.github.studym.studymarathon.domain.board.dto.PageResultDTO;
 import com.github.studym.studymarathon.domain.board.entity.Board;
