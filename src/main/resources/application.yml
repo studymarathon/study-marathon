@@ -2,17 +2,94 @@ spring:
   profiles:
     active: local
 
----
+  servlet:
+    multipart:
+      enabled: true
+      location: c:\\upload
+      max-request-size: 300MB
+      max-file-size: 50MB
 
-spring:
-  config:
-    activate:
-      on-profile: local
 
   datasource:
-    username: studym
-    password: studym
+    username: ${MYSQL_USER_ID}
+    password: ${MYSQL_USER_PW}
     url: jdbc:mysql://localhost:5000/study_marathon
 
   jpa:
     open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+  logging:
+    config: classpath:log4j2.yml
+    File:
+      path: c:\\log
+      max-size: 500MB
+      max-history: 10
+
+    level:
+      org:
+        springframework:
+          security:
+            web: TRACE
+      com:
+        github:
+          studym:
+            studymarathon: debug
+
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
+
+          naver:
+            clientId: ${NAVER_CLIENT_ID}
+            clientSecret: ${NAVER_CLIENT_SECRET}
+            authorizationGrantType: authorization_code
+            redirect_uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            scope:
+              - name
+              - email
+
+          kakao:
+            client-name: kakao
+            clientId: ${KAKAO_CLIENT_ID}
+            authorizationGrantType: authorization_code
+            redirect_uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            client-authentication-method: POST
+            scope:
+              - profile_nickname
+              - account_email
+
+
+        # Provider 설정
+        provider:
+          naver:
+            authorizationUri: https://nid.naver.com/oauth2.0/authorize
+            tokenUri: https://nid.naver.com/oauth2.0/token
+            userInfoUri: https://openapi.naver.com/v1/nid/me
+            userNameAttribute: response
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v2/user/me
+            userNameAttribute: id
+
+
+
+com:
+  github:
+    studym:
+      studymarathon:
+        path: C:\\upload
