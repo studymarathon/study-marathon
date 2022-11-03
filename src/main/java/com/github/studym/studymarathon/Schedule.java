@@ -15,6 +15,6 @@ public class Schedule {
     public void scheduleFixedDelayTask() throws InterruptedException {
         log.info("스케쥴링 펀치");
         log.info("Fixed delay task - {}", System.currentTimeMillis() / 1000);
-        Thread.sleep(10000);
+        Thread.sleep(1000000);
     }
 }

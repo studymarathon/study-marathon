@@ -35,6 +35,7 @@ public class AuthUserDetailsService implements UserDetailsService {
                 member.getPassword(),
                 member.getNickname(),
                 false,
+                false,
                 member.getRoleSet().stream()
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                         .collect(Collectors.toList())
